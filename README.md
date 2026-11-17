@@ -47,3 +47,13 @@ python full_film.py --materials ./Velana_Film_Materials --bim ./output/bim --out
 ```sh
 VELANA_DESIGN_STILLS=./design-stills python editorial_cut.py --materials ./Velana_Film_Materials --bim ./output/bim --output ./output/Velana_Full_Edit_V2.mp4
 ```
+
+## 6 分钟 Blueprint 版
+
+沿用原项目素材包中的 38 镜索引。从地图素材包 `Velana_Map_Assets.zip` 取出 `world_land.geojson` 和 `local_geometry.json`，放在同一个目录。需要 Python 3、Pillow、NumPy、FFmpeg、Inkscape 和 Noto Sans CJK 字体。
+
+```sh
+python blueprint_film.py --materials ./Velana_Film_Materials --data ./Velana_Map --output ./output/Velana_Full_Blueprint.mp4
+```
+
+地图为 Natural Earth 和 OpenStreetMap 矢量数据的连续放大镜头。工程图、运行流程和资产记录为影视重绘。
