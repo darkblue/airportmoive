@@ -204,7 +204,7 @@ def write_audio(path, duration, starts):
         wav.writeframes((np.clip(ambient, -1, 1) * 32767).astype('<i2').tobytes())
 
 
-def render(args):
+def render(args, editorial=False):
     shots = schedule(args.materials)
     if len(shots) != 38 or shots[-1][1] != 360 or any(a[1] != b[0] for a, b in zip(shots, shots[1:])):
         raise ValueError('Expected 38 continuous shots covering six minutes.')
@@ -237,7 +237,18 @@ def render(args):
                 frame(number, shot, part, mode).save(image)
                 partfile = work / f'part-{number:02d}-{j}.mp4'
                 progress = f'drawbox=x=43:y=706:w={int(1194*stop/360)}:h=3:color=0x65d8cb:t=fill'
-                if number in (3, 4, 10, 25, 31, 36, 38):
+                if editorial and number in (4, 10, 25, 27, 31, 38):
+                    motion = (
+                        "[0:v]split=2[plate][asset];"
+                        "[asset]crop=1280:608:0:0,"
+                        f"zoompan=z='1+0.035*min(on/{max(1,b-a-1)},1)':"
+                        "x='iw/2-iw/zoom/2':y='ih/2-ih/zoom/2':d=1:s=1280x608:fps=24[window];"
+                        "[plate][window]overlay=0:0"
+                    )
+                    kwargs = ['-filter_complex_threads', '1', '-filter_complex', motion]
+                elif editorial:
+                    kwargs = []
+                elif number in (3, 4, 10, 25, 31, 36, 38):
                     # Move only the image region. The extended canvas preserves the
                     # full image and keeps source labels and subtitles fixed.
                     bg = '0x091e2b'
@@ -252,7 +263,7 @@ def render(args):
                 else:
                     kwargs = ['-vf', progress]
                 subprocess.run(['ffmpeg', '-v', 'error', '-y','-loop','1','-framerate',str(FPS),'-i',str(image),
-                                *kwargs,'-frames:v',str(b-a),'-c:v','libx264','-preset','ultrafast',
+                                *kwargs,'-frames:v',str(b-a),'-c:v','libx264','-preset','veryfast' if editorial else 'ultrafast',
                                 '-crf','19','-threads','3','-pix_fmt','yuv420p',str(partfile)],check=True)
                 paths.append(partfile)
             print(f'{number:02d} / 38  {timecode(stop)}', flush=True)
