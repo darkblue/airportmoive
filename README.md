@@ -31,3 +31,19 @@ python full_film.py --materials ./Velana_Film_Materials --bim ./output/bim --out
 ```
 
 输出为 1280×720、24 fps 的带章节 MP4，包括中文字幕、临时氛围音和提示音。字幕及流程演示文案位于 `full_film.py`。
+
+## V2 实景版
+
+在 `design-stills` 中放置建筑设计报告 `word/media/` 原图。将 image13、image19、image22、image26、image45 转为同名 JPG。其他可选素材可从 1PAX 的机场项目相册选取，按用途命名。第三方照片按项目审阅使用，发布时需确认授权。
+
+- [gates.jpg](https://cdn.prod.website-files.com/698a41cf3248593467beb7ef/69de2b15ab157f08dbb2f4d9_DSC02714.webp)
+- [checkin.jpg](https://cdn.prod.website-files.com/698a41cf3248593467beb7ef/69de2b47dd18dd0f69f866bf_DJI_20250716230928_0001_D.webp)
+- [ceiling.jpg](https://cdn.prod.website-files.com/698a41cf3248593467beb7ef/69b6a110415b59c2d8fefea6_DSC02807.webp)
+- [lobby.jpg](https://cdn.prod.website-files.com/698a41cf3248593467beb7ef/69c3d1baf4035be5135b8348_SA102834.webp)
+- [aerial.jpg](https://cdn.prod.website-files.com/698a41cf3248593467beb7ef/69b6a110803ab42ed751c173_DJI_20250731110904_0183_D.webp)
+- [terminal.jpg](https://cdn.prod.website-files.com/698a41cf3248593467beb7ef/69d620e795a4130c5cac9436_velana_night.webp)
+- [facade.jpg](https://cdn.prod.website-files.com/698a41cf3248593467beb7ef/69de304c963fc3c2ecf42afe_DSC03539.webp)
+
+```sh
+VELANA_DESIGN_STILLS=./design-stills python editorial_cut.py --materials ./Velana_Film_Materials --bim ./output/bim --output ./output/Velana_Full_Edit_V2.mp4
+```
