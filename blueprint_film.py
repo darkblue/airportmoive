@@ -86,9 +86,9 @@ def plan(kind):
 def sequence(items):
     outline=[]; detail=[]; labels=[]
     n=len(items)
-    span=930/(n-1)
+    span=825/(n-1)
     for i,item in enumerate(items):
-        x=160+i*span
+        x=206+i*span
         outline.append(bp.circle(x,385,24,2))
         detail.append(plain(x-9,393,str(i+1),21))
         labels.append(bp.text(x,454,item,23,align='middle'))
@@ -124,6 +124,16 @@ def draw_figure(i):
     if i==14:return bp.node(True)
     if i==24:return bp.service()
     if i==26:return bp.coverage()
+    if i in (32,33,34):
+        marker = {
+            32: [bp.circle(699,381,62,2),plain(767,341,'读码失败',23),
+                 bp.path('M755 476Q811 549 995 548',1.6,'none','stroke-dasharray="8 6" marker-end="url(#arrow)"'),
+                 plain(906,577,'转人工',20)],
+            33: [bp.path('M474 370L426 261H280',1.8),plain(280,244,'核对后补签',24),
+                 bp.rect(477,345,30,24,2,'url(#hatchSparse)')],
+            34: [bp.circle(699,381,58,1.4),bp.path('M670 389L689 405L728 362',3),plain(764,354,'复扫通过',23)],
+        }[i]
+        return bp.layer(0,[bp.center(141,418,1100,418)])+bp.layer(1,plan('baggage'))+bp.layer(4,marker)
     if i in FLOWS:
         outline,details,labels=sequence(FLOWS[i])
         return bp.layer(0,[bp.center(129,385,1131,385)])+bp.layer(1,outline)+bp.layer(2,details)+bp.layer(4,labels)
